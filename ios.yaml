@@ -1,0 +1,188 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+ipv6: true
+keep-alive-interval: 30
+dial-timeout: 5
+connect-timeout: 5
+tcp-concurrent: false
+profile:
+  store-selected: true
+  store-fake-ip: true
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+  mtu: 1400
+dns:
+  enable: true
+  cache-algorithm: arc
+  respect-rules: true
+  listen: 0.0.0.0:53
+  prefer-h3: false
+  use-hosts: true
+  use-system-hosts: false
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  proxy-server-nameserver:
+    - https://cloudflare-dns.com/dns-query
+    - https://dns.google/dns-query
+  nameserver:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+  fallback:
+    - 1.1.1.1
+    - 8.8.8.8
+  fallback-filter:
+    geoip: true
+    geoip-code: RU
+    ipcidr:
+      - 0.0.0.0/8
+      - 10.0.0.0/8
+      - 127.0.0.0/8
+      - 169.254.0.0/16
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+    geoip6: true
+    ip6cidr:
+      - ::1/128
+      - ::/128
+      - ::ffff:0:0/96
+      - fe80::/10
+      - fc00::/7
+
+proxy-providers:
+  board-horizonproject-fyi-:
+    type: http
+    url: https://board.horizonproject.fyi/UgSEI1cmrj/
+    interval: 7200
+    path: ./providers/board-horizonproject-fyi-.yaml
+    health-check:
+      enable: true
+      lazy: true
+      url: https://cp.cloudflare.com
+      interval: 300
+      timeout: 8000
+    fallback: true
+
+proxy-groups:
+  - name: 🌍 VPN
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png
+    type: fallback
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 200
+    use:
+      - board-horizonproject-fyi-
+    hidden: false
+
+rule-providers:
+  geosite-private:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/private.mrs
+    path: ./ruleset/geosite-private.mrs
+    interval: 86400
+  geoip-private:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/private.mrs
+    path: ./ruleset/geoip-private.mrs
+    interval: 86400
+  geosite-ru:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ru.mrs
+    path: ./ruleset/geosite-ru.mrs
+    interval: 86400
+  geoip-ru:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geoip/ru.mrs
+    path: ./ruleset/geoip-ru.mrs
+    interval: 86400
+  ru-inline:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/other/inline/ru-inline.yaml
+    path: ./ruleset/ru-inline.yaml
+    interval: 86400
+  ads:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/meta/geo/geosite/category-ads-all.mrs
+    path: ./ruleset/category-ads-all.mrs
+    interval: 86400
+  apple:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml
+    path: ./ruleset/Apple.yaml
+    interval: 86400
+  telegram_itdog_domain:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/itdoginfo/allow-domains/releases/latest/download/telegram_domain.mrs
+    path: ./ruleset/telegram-domain.mrs
+    interval: 86400
+  telegram_itdog_ip:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://github.com/itdoginfo/allow-domains/releases/latest/download/telegram_ipcidr.mrs
+    path: ./ruleset/telegram-ipcidr.mrs
+    interval: 86400
+  ru-app-list:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/other/ru-app-list.yaml
+    path: ./ruleset/ru-app-list.yaml
+    interval: 86400
+  antifilter-community:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/ru-bundle/antifilter-community.mrs
+    path: ./ruleset/antifilter-community.mrs
+    interval: 86400
+  itdoginfo-inside-russia:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://github.com/legiz-ru/mihomo-rule-sets/raw/main/ru-bundle/itdoginfo-inside-russia.mrs
+    path: ./ruleset/itdoginfo-inside-russia.mrs
+    interval: 86400
+
+rules:
+  - DOMAIN,board.horizonproject.fyi,DIRECT
+  - RULE-SET,ads,REJECT,no-resolve
+  - DOMAIN-SUFFIX,captive.apple.com,DIRECT
+  - DOMAIN,time.apple.com,DIRECT
+  - DOMAIN-SUFFIX,push.apple.com,DIRECT
+  - RULE-SET,geoip-private,DIRECT,no-resolve
+  - RULE-SET,geosite-private,DIRECT
+  - RULE-SET,apple,DIRECT,no-resolve
+  - RULE-SET,telegram_itdog_domain,🌍 VPN
+  - RULE-SET,telegram_itdog_ip,🌍 VPN,no-resolve
+  - RULE-SET,ru-inline,DIRECT
+  - RULE-SET,ru-app-list,DIRECT
+  - RULE-SET,geosite-ru,DIRECT
+  - RULE-SET,geoip-ru,DIRECT,no-resolve
+  - RULE-SET,antifilter-community,🌍 VPN
+  - RULE-SET,itdoginfo-inside-russia,🌍 VPN
+  - MATCH,🌍 VPN
