@@ -58,11 +58,11 @@ dns:
       - fc00::/7
 
 proxy-providers:
-  board-horizonproject-fyi-:
+  horizonproject:
     type: http
-    url: https://board.horizonproject.fyi/UgSEI1cmrj/
+    url: 
     interval: 7200
-    path: ./providers/board-horizonproject-fyi-.yaml
+    path: ./providers/horizonproject.yaml
     health-check:
       enable: true
       lazy: true
@@ -79,7 +79,7 @@ proxy-groups:
     interval: 300
     tolerance: 200
     use:
-      - board-horizonproject-fyi-
+      - horizonproject
     hidden: false
 
 rule-providers:
