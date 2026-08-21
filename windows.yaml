@@ -24,6 +24,8 @@ tun:
   mtu: 1420
 dns:
   enable: true
+  cache-algorithm: arc
+  respect-rules: false
   listen: 127.0.0.1:53
   prefer-h3: false
   use-hosts: true
@@ -31,19 +33,10 @@ dns:
   ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
+  default-nameserver:
+    - 1.1.1.1
   nameserver:
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-  fallback-filter:
-    geoip-code: RU
-    geoip: true
-    ipcidr:
-      - 0.0.0.0/8
-      - 10.0.0.0/8
-      - 127.0.0.0/8
-      - 169.254.0.0/16
-      - 172.16.0.0/12
-      - 192.168.0.0/16
+    - https://dns.comss.one/dns-query
 
 proxy-providers:
   horizonproject:
