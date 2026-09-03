@@ -1,6 +1,7 @@
 mixed-port: 7890
 allow-lan: false
 mode: rule
+unified-delay: true
 log-level: info
 ipv6: true
 keep-alive-interval: 30
@@ -53,7 +54,7 @@ proxy-groups:
   - name: 🌍 VPN
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png
     type: fallback
-    url: http://www.gstatic.com/generate_204
+    url: https://cp.cloudflare.com
     interval: 300
     tolerance: 200
     use:
