@@ -9,7 +9,7 @@ external-controller: 127.0.0.1:9095
 external-ui: dashboard
 ipv6: false
 keep-alive-interval: 30
-unified-delay: false
+unified-delay: true
 profile:
   store-selected: true
   store-fake-ip: true
@@ -56,7 +56,7 @@ proxy-groups:
   - name: 🌍 VPN
     icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png
     type: fallback
-    url: http://www.gstatic.com/generate_204
+    url: https://cp.cloudflare.com
     interval: 300
     tolerance: 250
     use:
