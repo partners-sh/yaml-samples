@@ -35,11 +35,8 @@ dns:
   fake-ip-range: 198.18.0.1/16
   default-nameserver:
     - 1.0.0.1
-    - 76.76.10.0
-    - 77.88.8.8
   nameserver:
     - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
 
 proxy-providers:
   horizonproject:
