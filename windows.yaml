@@ -34,9 +34,13 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   default-nameserver:
-    - 76.76.2.11
+    - 77.88.8.8
+    - 1.0.0.1
   nameserver:
-    - https://freedns.controld.com/p0
+    - https://cloudflare-dns.com/dns-query
+  proxy-server-nameserver:
+    - 77.88.8.8
+    - 1.0.0.1
 
 proxy-providers:
   horizonproject:
@@ -162,10 +166,18 @@ rule-providers:
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml
     path: ./ruleset/Microsoft.yaml
     interval: 86400
+  ai:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ai-!cn.mrs
+    path: ./ruleset/ai.mrs
+    interval: 86400
 
 rules:
   - DOMAIN,board.horizonproject.fyi,DIRECT
   - RULE-SET,ads,REJECT,no-resolve
+  - RULE-SET,ai,🌍 VPN
   - DOMAIN-SUFFIX,time.windows.com,DIRECT
   - RULE-SET,microsoft,DIRECT,no-resolve
   - RULE-SET,torrent-clients,DIRECT
