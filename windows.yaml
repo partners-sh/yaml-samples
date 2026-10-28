@@ -13,6 +13,8 @@ unified-delay: true
 profile:
   store-selected: true
   store-fake-ip: true
+hosts:
+  "board.horizonproject.fyi": 85.234.100.248
 tun:
   enable: true
   stack: system
@@ -37,7 +39,7 @@ dns:
     - 77.88.8.8
     - 1.0.0.1
   nameserver:
-    - https://cloudflare-dns.com/dns-query
+    - "https://cloudflare-dns.com/dns-query#🌍 VPN"
   proxy-server-nameserver:
     - 77.88.8.8
     - 1.0.0.1
