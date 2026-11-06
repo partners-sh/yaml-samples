@@ -2,24 +2,30 @@ mixed-port: 7890
 allow-lan: false
 mode: rule
 unified-delay: true
-log-level: info
+log-level: warning
 ipv6: true
 keep-alive-interval: 30
-dial-timeout: 5
-connect-timeout: 5
-tcp-concurrent: false
+dial-timeout: 10
+connect-timeout: 10
+tcp-concurrent: true
+find-process-mode: off
 profile:
   store-selected: true
   store-fake-ip: true
+hosts:
+  "board.horizonproject.fyi": 85.234.100.248
 tun:
   enable: true
-  stack: system
+  stack: gvisor
   dns-hijack:
     - any:53
   auto-route: true
   auto-detect-interface: true
   strict-route: true
   mtu: 1400
+  route-exclude-address:
+    - 85.234.100.248/32
+    - 1.0.0.1/32
 dns:
   enable: true
   cache-algorithm: arc
@@ -32,12 +38,10 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   default-nameserver:
-    - 77.88.8.8
     - 1.0.0.1
   nameserver:
-    - https://cloudflare-dns.com/dns-query
+    - "https://cloudflare-dns.com/dns-query#🌍 VPN"
   proxy-server-nameserver:
-    - 77.88.8.8
     - 1.0.0.1
 
 proxy-providers:
